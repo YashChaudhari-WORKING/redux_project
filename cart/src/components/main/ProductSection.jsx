@@ -3,12 +3,15 @@ import React, { useEffect, useState, useMemo } from "react";
 import { fetchProduct } from "@/features/productSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductCard } from "../utils/ProductCard";
+import { CartProduct } from "../utils/cartProduct";
 export const ProductSection = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.product);
+  const { items, totalItem, totalPrize } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(fetchProduct());
   }, [dispatch]);
+  console.log(items);
 
   const [selectedTab, setselectedTab] = useState("all");
 
@@ -46,6 +49,18 @@ export const ProductSection = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <h1>Cart</h1>
+      <div className="flex gap-5">
+        <p>Total Prize : {totalPrize}</p>
+        <p>Total Prize : {totalPrize}</p>
+        <button className="bg-red-200 p-2 rounded-[5px]">Clear Cart</button>
+      </div>
+      <div className="grid grid-cols-4">
+        {items.map((item) => (
+          <CartProduct key={item.id} product={item} />
+        ))}
       </div>
     </div>
   );

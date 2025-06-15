@@ -1,13 +1,14 @@
 "use client";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem } from "@/features/productCart";
-export const ProductCard = ({ product }) => {
+import { addItem, removeItem, clearCart } from "@/features/productCart";
+export const CartProduct = ({ product }) => {
   const dispatch = useDispatch();
 
   return (
     <div className="border rounded-lg shadow-md p-4 bg-white flex flex-col">
       {/* Image */}
+
       <img
         src={product.image}
         alt={product.title}
@@ -36,14 +37,25 @@ export const ProductCard = ({ product }) => {
           ⭐ {product.rating?.rate} ({product.rating?.count})
         </span>
       </div>
+      <div className="text-sm flex justify-between">
+        <p>Quantity : {product.quantity} </p>
+        <p>itemTotalPrize : {product.itemTotalPrize}</p>
+      </div>
 
-      {/* Add to Cart Button */}
-      <button
-        onClick={() => dispatch(addItem(product))}
-        className="mt-auto bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-      >
-        Add to Cart
-      </button>
+      <div className="text-sm mt-2 flex justify-between">
+        <button
+          onClick={() => dispatch(addItem(product))}
+          className="p-2 bg-gray-200 rounded-[5px]"
+        >
+          +
+        </button>
+        <button
+          onClick={() => dispatch(removeItem(product.id))}
+          className="p-2 bg-gray-200 rounded-[5px]"
+        >
+          -
+        </button>
+      </div>
     </div>
   );
 };
